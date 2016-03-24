@@ -67,7 +67,38 @@ public class LinkedSet1<E extends Comparable<E>> implements Set<E> {
 	//should be O(n)
 	public boolean containsAll(Set<E> that) {
 		// TODO Auto-generated method stub
-		return false;
+		Iterator<E> it = that.iterator(); //get the iterator for that set
+		Node<E> curr = first;
+		E thatCurr = null;
+		while(curr != null && it.hasNext()){ // while both this set and that set have elements
+			thatCurr = it.next(); //get the next element in that set
+			int comp = thatCurr.compareTo(curr.elem); //check if that's element comes before or after the element in curr
+			System.out.printf("Checking %d in that and %d in this.%n", thatCurr, curr.elem);
+
+			//check if thatCurr is found contained in this set
+			while (comp > 0 && curr.next != null){ //while thatCurr comes after curr. Keep checking subsequent elements in this for a match
+				curr = curr.next;
+				comp = thatCurr.compareTo(curr.elem);
+				System.out.printf("Checking %d in that and %d in this.%n", thatCurr, curr.elem);
+			}
+			if (comp == 0){ // if a match is found, get the node in this. the loop to check if both sets still have elements will be repeated
+				System.out.printf("%d found. Checking next element in that.%n", thatCurr);
+				curr = curr.next;
+			}
+			else { // if a match was not found. Then this set does not contain all of that. Terminate
+				System.out.printf("%d not found. Returning false ", thatCurr);
+				return false;
+			}
+		}
+		if(!it.hasNext())
+			System.out.println("Terminating because that does not have any more elements");
+		else if (curr == null)
+			System.out.println("Terminating because this does not have any more elements");
+		if(it.hasNext() && curr == null){
+			System.out.printf("This exhausted elements. %d of that not found. Returning false ", it.next());
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -124,8 +155,8 @@ public class LinkedSet1<E extends Comparable<E>> implements Set<E> {
 			pred = curr;
 			curr = curr.next;
 		}
-		//element not found. Add it to the set
-		return;
+		//it not found. Throw exception
+		throw new NoSuchElementException();
 	}
 
 	@Override
@@ -136,64 +167,7 @@ public class LinkedSet1<E extends Comparable<E>> implements Set<E> {
 	public void addAll(Set<E> that) {
 		// TODO Auto-generated method stub
 		Iterator<E> it = that.iterator();
-		if(first == null){ //if this set was empty, just add the elements from that set
-			Node<E> curr = null;
-			while(it.hasNext()){
-				E thatCurr = it.next();
-				if(curr == null){
-					first = new Node<E>(thatCurr, null);
-					curr = first;
-				}
-				else{
-					curr.next = new Node<E>(thatCurr, null);
-					curr = curr.next;
-				}
-				size++;
-			}
-		}
-		else{ //this set already has some elements. We have to look for where to insert each element from that set
-			Node<E> curr = first, pred = null;
-			while(it.hasNext()){
-				
-				E thatCurr = it.next();
-				System.err.println("Adding "+thatCurr);
-				if(curr != null){ //this still has elements
-					int comp = thatCurr.compareTo(curr.elem);
-					if(comp < 0){//thatCurr is smaller than element in curr. Put its node before curr
-						if(pred == null){
-							first = new Node<E>(thatCurr, first);
-							pred = first;
-						}
-						else{
-							System.err.println("that is "+thatCurr+", curr is "+curr.elem);
-							Node<E> ins = new Node<E>(thatCurr, curr);
-							System.err.println(thatCurr+ "added");
-							pred.next = ins;
-							pred = ins;
-						}
-						//curr = curr.next;
-					}else if(comp > 0){
-						while(comp >= 0){ //thatCurr is bigger than element in curr. Get next node in this
-							System.err.println("that is "+thatCurr+", curr is "+curr.elem);
-							pred = curr;
-							curr = curr.next;
-							comp = thatCurr.compareTo(curr.elem);
-						}
-						System.err.println("that is "+thatCurr+", curr is "+curr.elem);
-						Node<E> ins = new Node<E>(thatCurr, curr);
-						System.err.println(thatCurr+ "added");
-						pred.next = ins;
-					}
-					curr = curr.next;
-				}
-				else{ //this has no more elements. Add all of that to this
-					Node<E> ins = new Node<E>(thatCurr, null);
-					pred.next = ins;
-					pred = ins;
-				}
-				size++;
-			}
-		}
+		
 			
 	}
 

@@ -41,7 +41,16 @@ public class LinkedSet1Test {
 
 	@Test
 	public void testContainsAll() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
+		LinkedSet1<Integer> set11 = new LinkedSet1<Integer>();
+		LinkedSet1<Integer> set21 = new LinkedSet1<Integer>();
+		set11.add(1); set11.add(2);
+		set11.add(3); set11.add(4);
+		set11.add(5); set11.add(6);
+		
+		set21.add(3); set21.add(5); set21.add(6); set21.add(7); set21.add(8);
+		
+		assertTrue("Test if set1 contains set2", set11.containsAll(set21));
 	}
 
 	@Test
@@ -78,7 +87,7 @@ public class LinkedSet1Test {
 		set2.add(16);
 		//fail("Not yet implemented");
 		set1.addAll(set2);
-		set1.print();
+		//set1.print();
 		assertEquals("Test size of set 1 after union", 7, set1.size());
 	}
 
