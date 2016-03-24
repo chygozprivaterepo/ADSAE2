@@ -44,11 +44,11 @@ public class LinkedSet1Test {
 		//fail("Not yet implemented");
 		LinkedSet1<Integer> set11 = new LinkedSet1<Integer>();
 		LinkedSet1<Integer> set21 = new LinkedSet1<Integer>();
-		set11.add(1); set11.add(2);
+		set11.add(2);
 		set11.add(3); set11.add(4);
 		set11.add(5); set11.add(6);
 		
-		set21.add(3); set21.add(5); set21.add(6); set21.add(7); set21.add(8);
+		set21.add(3); set21.add(5); set21.add(6); set21.add(1);
 		
 		assertTrue("Test if set1 contains set2", set11.containsAll(set21));
 	}
