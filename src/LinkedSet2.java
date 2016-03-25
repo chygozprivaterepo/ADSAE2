@@ -8,12 +8,12 @@ import java.util.NoSuchElementException;
 
 //use a sorted SLL
 
-public class LinkedSet1<E extends Comparable<E>> implements Set<E> {
+public class LinkedSet2<E extends Comparable<E>> implements Set<E> {
 
 	private int size;
-	private LinkedSet1.Node<E> first;
+	private LinkedSet2.Node<E> first;
 	
-	public LinkedSet1(){
+	public LinkedSet2(){
 		size = 0;
 		first = null;
 	}
@@ -45,47 +45,35 @@ public class LinkedSet1<E extends Comparable<E>> implements Set<E> {
 	}
 
 	// Return true if and only if this set is equal to that.
-	//pairwise comparison
-	//should be O(n)
+	//The time complexity is O(nn') where n and n' are the sizes of the first and second sets respectively.
+	//This is because for each element of the second set, we have to linearly traverse the entire first set to check if it is contained in it. 
+	// Traversing the first set will give a complexity of O(n) and we traverse it n' times, resulting in an overall complexity of O(nn')
 	public boolean equals(Set<E> that) {
 		// TODO Auto-generated method stub
-		if(that.size() != this.size()) //if the two sets have different sizes, then they are not equal. return false
+		if(that.size() != this.size()) //if the sizes of the two sets differ, then return false
 			return false;
-		Node<E> curr = first;
-		Iterator<E> it = that.iterator(); //get iterator for second set
-		while(it.hasNext() && curr != null){
-			if(!curr.elem.equals(it.next()))
+		Iterator<E> it = that.iterator(); //get the iterator for the second set
+		while(it.hasNext()){ //while second set has elements
+			E thatCurr = it.next(); //get the next element
+			if(!this.contains(thatCurr)) //search the first set for that element. Return false if not found
 				return false;
-			curr = curr.next;
 		}
 		return true;
 	}
 
 	@Override
 	// Return true if and only if this set subsumes that.
-	// variant of pairwise comparison
-	//should be O(n)
+	// The time complexity is O(nn') where n and n' are the sizes of the first and second sets respectively.
+	// This is because for each element of the second set, we have to linearly traverse the entire first set to check if it is contained in it. 
+	// Traversing the first set will give a complexity of O(n) and we traverse it n' times, resulting in an overall complexity of O(nn')
 	public boolean containsAll(Set<E> that) {
 		// TODO Auto-generated method stub
-		Iterator<E> it = that.iterator(); //get the iterator for that set
-		Node<E> curr = first;
-
-		while(curr != null && it.hasNext()){ // while both this set and that set have elements
+		Iterator<E> it = that.iterator(); //get the iterator for the second set
+		while(it.hasNext()){ // while second set has elements
 			E thatCurr = it.next(); //get the next element in that set
-
-			while (curr != null && thatCurr.compareTo(curr.elem) > 0){ //while thatCurr comes after curr. Keep checking subsequent 
-																			//elements in this set for a match
-				curr = curr.next;
-			}
-			if (thatCurr.equals(curr.elem)){ // if a match is found, get the node in this. the loop to check if both sets still have elements will be repeated
-				curr = curr.next;
-			}
-			else { // if a match was not found. Then this set does not contain all of that. Terminate
+			if(!this.contains(thatCurr)){ //search the first set for the element. return false if not found
 				return false;
 			}
-		}
-		if(it.hasNext() && curr == null){ // this set ran out of elements while that set still has elements to check. 
-			return false; //return false since not all elements in that were found in this
 		}
 		return true; 
 	}
@@ -154,122 +142,76 @@ public class LinkedSet1<E extends Comparable<E>> implements Set<E> {
 	@Override
 	// Make this set the union of itself and that.
 	// SLL merge
-	// should be O(n+n')
-	// where n' is size of merged SLL
+	// The time complexity is O(nn') where n and n' are the sizes of the first and second sets respectively.
+	// This is because for each element of the second set, we have to linearly traverse the entire first set to add it to the correct position.
+	// Traversing the first set will give a complexity of O(n) and we traverse it n' times, resulting in an overall complexity of O(nn')
 	public void addAll(Set<E> that) {
 		// TODO Auto-generated method stub
 
 		Iterator<E> it = that.iterator(); //get iterator on second set
-		Node<E> curr = first, prev = first;
 		
 		while (it.hasNext()){ //while second set has elements
 			E thatCurr = it.next(); //get next element of second set
-			if(size == 0){ //first set is empty. Add element of second set in first position of first set
-				Node<E> ins = new Node<E>(thatCurr, null);
-				first = ins;
-				prev = curr = first;
-				size++;
-			}else{
-				while(curr != null && thatCurr.compareTo(curr.elem) > 0){ //if current element of second set is greater than current element of first set,
-																		//get next element of first set
-					prev = curr;
-					curr = curr.next;
-				}
-				if(curr != null && thatCurr.compareTo(curr.elem) < 0){
-					Node<E> ins = new Node<E>(thatCurr, curr);
-					if(prev.equals(curr)){ //if first element of first set is smaller than the current element of second set, insert at first position in first set
-						first = ins;
-						prev = first;
-					}else{ // else insert at correct position
-						prev.next = ins;
-						prev = ins;
-					}
-					size++;
-				}else if (curr != null && thatCurr.equals(curr.elem)){ //current element of both sets are equal. Skip both of them
-					prev = curr;
-					curr = curr.next;
-				}
-				else if (curr == null){ //end of first set reached while second set still has elements to add.
-					Node<E> ins = new Node<E>(thatCurr, null);
-					prev.next = ins;
-					prev = ins;
-					size++;
-				}
-			}
+			this.add(thatCurr); //add it to this set
 		}	
 	}
 
 	@Override
 	// Make this set the difference of itself and that.
 	// variant of SLL merge
-	// should be O(n+n')
-	// where n' is size of merged SLL
+	// The time complexity is O(nn') where n and n' are the sizes of the first and second sets respectively.
+	// This is because for each element of the second set, we have to linearly traverse the entire first set to remove it if it is found.
+	// Traversing the first set will give a complexity of O(n) and we traverse it n' times, resulting in an overall complexity of O(nn')
 	public void removeAll(Set<E> that) {
 		// TODO Auto-generated method stub
 		if(first == null) //if this is empty, don't bother checking. return
 			return;
-		Node<E> curr = first, prev = first;
 		Iterator<E> it = that.iterator();
-		while(it.hasNext() && curr != null){ //while both sets have elements
+		while(it.hasNext()){ //while second set has elements
 			E thatCurr = it.next();
-			while(curr != null && thatCurr.compareTo(curr.elem) > 0){ // if it comes after, get next element in this and check again
-				prev = curr;
-				curr = curr.next;
-			}
-			if(thatCurr.equals(curr.elem)){ // if that's element is found in this set, 
-				if(prev.equals(curr)){ //if it was found at the first position, remove the first element
-					first = curr.next;
-					curr = first;
-					prev = curr;
-				}else{ //it is not the first element to be removed. Remove from its position
-					prev.next = curr.next;
-					curr = curr.next;
-				}
-				size--;
-			}
+			this.remove(thatCurr);
 		}
 	}
 
 	@Override
 	// Make this set the intersection of itself and that.
 	// variant of SLL merge
-	// should be O(n+n')
-	// where n' is size of merged SLL
+	// The time complexity is O(nn') where n and n' are the sizes of the first and second sets respectively.
+	// This is because for each element of the first set, we have to linearly traverse the entire second set to check if it is found.
+	// If found, then it is retained, else it is removed from the set.
+	// Traversing the second set will give a complexity of O(n') and we traverse it n times, resulting in an overall complexity of O(nn')
 	public void retainAll(Set<E> that) {
 		// TODO Auto-generated method stub
 		
 		if(first == null){ //if this is empty, don't bother checking. return
 			return;
 		}
-		int tempSize = 0;
 		Node<E> curr = first, prev = first;
-		Iterator<E> it = that.iterator(); //iterator of second set
-		if(!it.hasNext()){ //if second set has no elements, clear first set and return
-			clear();
-			return;
-		}
-		while(it.hasNext() && curr != null){ //while both sets have elements
-			E thatCurr = it.next(); //get next element in second set
-			while(curr != null && thatCurr.compareTo(curr.elem) > 0){ // current element of second set not found yet while first set still has elements
-				//remove element from first set that is not in second set
-				if(prev.equals(curr)){ //if the first element of first set is not in the second set, remove it from the set
+		int tempSize = 0;
+		while(curr != null){ //while the first set still has elements
+			Iterator<E> it = that.iterator(); //get iterator of second set
+			boolean found = false; //variable to keep record of whether element of first set is found in second set
+			while(it.hasNext()){ //while the second set still has elements, traverse it
+				if(curr.elem.equals(it.next())){ 
+					found = true; //if element was found in second set, set variable to true
+					break;
+				}
+			}
+			if(!found){ //if element was not found,
+				if(prev.equals(curr)){ //first element was checked. remove the first element
 					first = curr.next;
 					prev = curr = first;
-				}else{ //else if any other element of the first set is not in the second set, remove it from the set
+				}else{ //element at another position was found, remove it
 					prev.next = curr.next;
 					curr = curr.next;
 				}
-			}
-			if(thatCurr.equals(curr.elem)){ // if second set's element is found in first set, keep it 
+			}else{ //element was found. Get the next element of first set
 				prev = curr;
 				curr = curr.next;
 				tempSize++;
 			}
 		}
-		if(curr != null){ //if second set runs out of elements while first set still has elements, remove the remaining elements of first set
-			prev.next = null;
-		}
-		size = tempSize;
+		size = tempSize++;
 	}
 
 	@Override
