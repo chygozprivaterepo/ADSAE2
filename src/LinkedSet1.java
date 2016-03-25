@@ -161,42 +161,38 @@ public class LinkedSet1<E extends Comparable<E>> implements Set<E> {
 		Iterator<E> it = that.iterator(); //get iterator on second set
 		Node<E> curr = first, prev = first;
 		
-		while (it.hasNext()){ //while second set still has elements
+		while (it.hasNext()){ //while second set has elements
 			E thatCurr = it.next(); //get next element of second set
-			if(curr != null ){  //if first set still has elements
-				while(thatCurr.compareTo(curr.elem) > 0){ //compare the element in the current node with the element of the second set.
-												//while the second set's element is greater than that of the first, check the next element
-												//of the first set
+			if(size == 0){ //first set is empty. Add element of second set in first position of first set
+				Node<E> ins = new Node<E>(thatCurr, null);
+				first = ins;
+				prev = curr = first;
+				size++;
+			}else{
+				while(curr != null && thatCurr.compareTo(curr.elem) > 0){ //if current element of second set is greater than current element of first set,
+																		//get next element of first set
 					prev = curr;
 					curr = curr.next;
 				}
-				
-				if(thatCurr.equals(curr.elem)){ //if both elements of the two sets are equal, then get their next elements
-					prev = curr;
-					curr = curr.next;
-					thatCurr = it.next();
-				}
-				if(thatCurr.compareTo(curr.elem) < 0){ //if the second set's element is smaller, insert it before the current element of first set
-					Node<E> ins = new Node<E>(thatCurr,curr);
-					if(prev.equals(curr)){ // if the current element in first set is the first element, point first to it
+				if(curr != null && thatCurr.compareTo(curr.elem) < 0){
+					Node<E> ins = new Node<E>(thatCurr, curr);
+					if(prev.equals(curr)){ //if first element of first set is smaller than the current element of second set, insert at first position in first set
 						first = ins;
 						prev = first;
-					}
-					else{ //otherwise insert the second set's element before curr
+					}else{ // else insert at correct position
 						prev.next = ins;
 						prev = ins;
 					}
 					size++;
+				}else if (curr != null && thatCurr.equals(curr.elem)){ //current element of both sets are equal. Skip both of them
+					prev = curr;
+					curr = curr.next;
 				}
-				
-			}else{ //first set has no other elements. Insert remaining elements of second set into first set
-				Node<E> ins = new Node<E>(thatCurr, null);
-				if(first == null){
-					first = ins;
-					prev = first;
-				}else{
+				else if (curr == null){ //end of first set reached while second set still has elements to add.
+					Node<E> ins = new Node<E>(thatCurr, null);
 					prev.next = ins;
 					prev = ins;
+					size++;
 				}
 			}
 		}	
@@ -224,7 +220,7 @@ public class LinkedSet1<E extends Comparable<E>> implements Set<E> {
 					first = curr.next;
 					curr = first;
 					prev = curr;
-				}else{ //it is not the first element to be removed. Remove from it's position
+				}else{ //it is not the first element to be removed. Remove from its position
 					prev.next = curr.next;
 					curr = curr.next;
 				}
@@ -246,14 +242,15 @@ public class LinkedSet1<E extends Comparable<E>> implements Set<E> {
 		}
 		int tempSize = 0;
 		Node<E> curr = first, prev = first;
-		Iterator<E> it = that.iterator();
-		if(!it.hasNext()){
+		Iterator<E> it = that.iterator(); //iterator of second set
+		if(!it.hasNext()){ //if second set has no elements, clear first set and return
 			clear();
 			return;
 		}
 		while(it.hasNext() && curr != null){ //while both sets have elements
 			E thatCurr = it.next();
-			while(thatCurr.compareTo(curr.elem) > 0 && curr.next != null){ // 
+			while(thatCurr.compareTo(curr.elem) > 0 && curr.next != null){ // current element of second set not found yet while first set still has elements
+				//remove element from first set that is not in second set
 				if(prev.equals(curr)){
 					first = curr.next;
 					prev = curr = first;
@@ -262,7 +259,7 @@ public class LinkedSet1<E extends Comparable<E>> implements Set<E> {
 					curr = curr.next;
 				}
 			}
-			if(thatCurr.equals(curr.elem)){ // if that's element is found in this set, 
+			if(thatCurr.equals(curr.elem)){ // if that's element is found in this set, keep it 
 				prev = curr;
 				curr = curr.next;
 				tempSize++;
@@ -318,18 +315,7 @@ public class LinkedSet1<E extends Comparable<E>> implements Set<E> {
 			return nextElem;
 		}
 	}
-	
-	//method to print out elements of a set. To be removed
-	public void print(){
-		Node<E> curr = first;
-		System.out.print("S contains {");
-		while(curr != null){
-			System.out.print(curr.elem + ", ");
-			curr = curr.next;
-		}
-		System.out.print("}");
-		System.out.println();
-	}
+
 	
 	//tostring method. to be removed
 	public String toString(){

@@ -102,12 +102,14 @@ public class LinkedSet1Test {
 		set2.add(10);
 		set2.add(13);
 		set2.add(14);
-		set2.add(16);
+		set2.add(16);set2.add(18);set2.add(20);set2.add(17);
 		//fail("Not yet implemented");
 		set1.addAll(set2);
-		//set1.print();
-		assertEquals("Test size of set 1 after union", 7, set1.size());
-		assertEquals("Test contents of set 1 after union", "{3, 10, 11, 13, 14, 16, 17, }", set1.toString());
+		System.out.println(set1.toString());
+		assertEquals("Test size of set 1 after union", 9, set1.size());
+		//assertEquals("Test size of set 1 after union", 6, set1.size());
+		assertEquals("Test contents of set 1 after union", "{3, 10, 11, 13, 14, 16, 17, 18, 20, }", set1.toString());
+		//assertEquals("Test contents of set 1 after union", "{10, 13, 14, 16, 18, 20, }", set1.toString());
 	}
 
 	@Test
