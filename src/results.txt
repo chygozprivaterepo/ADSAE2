@@ -1,0 +1,38 @@
+
+
+
+Name: Ekwonu Chigozie
+Matric Number: 2228371
+data set: dictionary.txt
+
+Brief note on your observations of your experiments and any further implementation details of note 
+---------------------------------------------------
+
+
+
+
+
+
+
+ 
+Table of Results
+----------------
+    
+1. N = 49891   scalingFactor = 51,   shift = 91 
+               
+hashCode         collisions   maxBuckSize   avgOccBuckSize
+RSHashCode           4644             6               1
+JSHashCode           4541             6               1
+PJWHashCode          4542             5               1
+ELFHashCode          4542             5               1
+BKDRHashCode         4441             6               1
+SDBMHashCode         4498             5               1
+DJBHashCode          4549             6               1
+DEKHashCode          4479             6               1
+BPHashCode           4594            14               1.28
+FNVHashCode          4496             7               1.27
+APHashCode           4633             6               1.28
+Java HashCode		 4565		   	  5 			  1
+
+
+etc. 
