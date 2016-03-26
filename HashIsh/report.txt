@@ -1,0 +1,72 @@
+1. N = 49891	scalingFactor = 51	shift = 91
+
+hashCode       collisions     maxBuckSize    avgOccBuckSize 
+RSHashCode     4644           6              1.28           
+JSHashCode     4541           6              1.27           
+PJWHashCode    4542           5              1.27           
+ELFHashCode    4542           5              1.27           
+BKDRHashCode   4441           6              1.27           
+SDBMHashCode   4498           5              1.27           
+DJBHashCode    4549           6              1.27           
+DEKHashCode    4479           6              1.27           
+BPHashCode     4594           14             1.28           
+FNVHashCode    4496           7              1.27           
+APHashCode     4633           6              1.28           
+JavaHashCode   4565           5              1.27           
+
+
+
+2. N = 49891	scalingFactor = 25	shift = 91
+
+hashCode       collisions     maxBuckSize    avgOccBuckSize 
+RSHashCode     4580           6              1.28           
+JSHashCode     4580           5              1.27           
+PJWHashCode    4542           5              1.27           
+ELFHashCode    4542           5              1.27           
+BKDRHashCode   4522           6              1.27           
+SDBMHashCode   4591           5              1.27           
+DJBHashCode    4557           7              1.27           
+DEKHashCode    4439           7              1.26           
+BPHashCode     4633           14             1.29           
+FNVHashCode    4565           6              1.28           
+APHashCode     4555           6              1.28           
+JavaHashCode   4600           5              1.27           
+
+
+
+3. N = 49891	scalingFactor = 51	shift = 50
+
+hashCode       collisions     maxBuckSize    avgOccBuckSize 
+RSHashCode     4586           5              1.28           
+JSHashCode     4566           6              1.27           
+PJWHashCode    4542           5              1.27           
+ELFHashCode    4542           5              1.27           
+BKDRHashCode   4465           6              1.27           
+SDBMHashCode   4555           7              1.27           
+DJBHashCode    4509           5              1.27           
+DEKHashCode    4486           6              1.27           
+BPHashCode     4578           14             1.28           
+FNVHashCode    4544           6              1.27           
+APHashCode     4524           5              1.27           
+JavaHashCode   4619           6              1.28           
+
+
+
+4. N = 49891	scalingFactor = 25	shift = 25
+
+hashCode       collisions     maxBuckSize    avgOccBuckSize 
+RSHashCode     4489           5              1.27           
+JSHashCode     4566           6              1.28           
+PJWHashCode    4542           5              1.27           
+ELFHashCode    4542           5              1.27           
+BKDRHashCode   4523           6              1.27           
+SDBMHashCode   4588           6              1.28           
+DJBHashCode    4562           7              1.27           
+DEKHashCode    4449           6              1.26           
+BPHashCode     4629           14             1.29           
+FNVHashCode    4573           7              1.27           
+APHashCode     4586           6              1.28           
+JavaHashCode   4605           5              1.28           
+
+
+
